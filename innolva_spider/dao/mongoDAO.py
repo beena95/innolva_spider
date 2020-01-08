@@ -1,7 +1,9 @@
 from bson import ObjectId
 from pymongo import MongoClient, DESCENDING
 
+
 class MongoDAO:
+
     def __init__(self, host, port, db):
         self.db = db
         self.host = host
@@ -57,6 +59,15 @@ class MongoDAO:
             for el in coll.find().skip(start):
                 el["_id"] = str(el["_id"])
                 yield el
+
+    def links_list(self, collection, start: int = 0):
+        my_set = set()
+        coll = self.get_coll(collection)
+        for el in coll.find().skip(start):
+            el["_id"] = str(el["_id"])
+            my_set.add(el)
+        return my_set
+
 
     def get_by_id(self, collection, id):
         coll = self.get_coll(collection)
