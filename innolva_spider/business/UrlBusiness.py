@@ -1,15 +1,10 @@
 from innolva_spider.dao.UrlDAO import UrlDAO
 from innolva_spider.dao.ArticleToDB import ArticleToDB
-
-import time
-import re
-import requests
-from urllib.parse import urlparse
-
 from innolva_spider.business.ArticleBusiness import ArticleBusiness
 
 
 class UrlBusiness:
+
     def __init__(self):
         self.url_dao = UrlDAO()
         self.articles_to_db = ArticleToDB()
@@ -18,7 +13,7 @@ class UrlBusiness:
     """Funzione che salva url non visitati, visitati e articoli scaricati"""
 
     def take_urls(self, set_non_vis: set) -> set:
-        set_vis = self.articles_to_db.sync_set()
+        set_vis = self.articles_to_db.links_list("VISITATI")
         set_urls = set_non_vis.difference(set_vis)
         for url in set_urls:
             self.articles_to_db.delete_by_condition_dict("NON VISITATI", {"URL": url})
@@ -27,7 +22,7 @@ class UrlBusiness:
             except:
                 continue
             self.articles_to_db.save(url, "VISITATI")
-            if ArticleBusiness(url).getBody():
+            if ArticleBusiness(url).get_body():
                 url_article = ArticleBusiness(url).article
                 # self.setArticles.add(url_article)
                 self.articles_to_db.save(url_article, "ARTICLES_COLLECTION")
@@ -41,11 +36,11 @@ class UrlBusiness:
     """Funzione che dato, un url ed un livello di difficoltà, scava all'interno dell'url cercando altri url"""
 
     def go_deep(self, livello: int, url: str = ""):
-        #gestire get primo url
+        # gestire get primo url
         if url:
             set_non_vis = self.url_dao.get_urls(url)
         else:
-            set_non_vis = self.articles_to_db.sync_set()
+            set_non_vis = self.articles_to_db.links_list("NON VISITATI")
         print(len(set_non_vis))
         print(set_non_vis)
         while livello > 0:
@@ -54,7 +49,6 @@ class UrlBusiness:
 
 
 if __name__ == '__main__':
-
     prova = UrlBusiness()
     p = prova.go_deep(2, "https://www.lastampa.it/")
 

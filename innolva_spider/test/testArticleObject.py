@@ -15,8 +15,9 @@ if __name__ == '__main__':
                "Storia di un uomo molto strano che diceva parole dure",
                "C'era una volta un uomo che diceva cose molto strane e questo lo rendeva ancora piu' strano, stranamente pero' le sue stranezze erano una delle cose piu' ambigue e strane presenti su questo mondo di strabe stranezze")
     URL1 = Article("https://www.corriere.it/", None, "LORENZO BINACCI", "sbakbfafb", "kjdasodhsalhaslkcjakofchaso")
-    lista = [URL, URL1]
-    database = ArticleToDB("Localhost", 27017, "DATABASE")
+
+    lista = ["dfdwwx", "dsasfqw", "rgfdwxasdas", "adsafs", "cwqdwsa", "fsadsda"]
+    database = ArticleToDB("Localhost", 27017, "URLs")
     #database.object_to_json(lista, "collection")
     #database.delete_by_id("collection", "5dfba3775846ef0f6e71ee39")
     #database.save(URL, "Articoli")
@@ -31,5 +32,10 @@ if __name__ == '__main__':
     #database.save(lista, "Articoli")
     # for link in database.query("Articoli", {"Autore" :"LORENZO BINACCI"}):
     #     print(link)
-    database.save(URL, "mario")
+    # database.save(URL, "mario")
+    # for article in database.all("Links"):
+    #     print(type(article))
+    # database.save_list(lista, "Links aggiornati")
+    # print((database.links_list("Links aggiornati")))
+    
 
