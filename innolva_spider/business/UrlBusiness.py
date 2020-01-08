@@ -1,4 +1,3 @@
-
 from innolva_spider.dao.UrlDAO import UrlDAO
 from innolva_spider.dao.FileDAO import FileDAO
 
@@ -19,8 +18,7 @@ class UrlBusiness():
         self.fileScaricati = "/home/sara/PycharmProjects/innolva-spider/innolva_spider/resources/url_scaricati.txt"
         self.setArticles = set()
 
-
-    def takeUrls(self, setNonVis:set) -> set:
+    def takeUrls(self, setNonVis: set) -> set:
         setVis = self.file_dao.sync_set(self.fileVisitati)
         setUrls = setNonVis.difference(setVis)
         for url in setUrls:
@@ -44,12 +42,7 @@ class UrlBusiness():
         self.file_dao.sync_file(setNonVis, self.fileNonVisitati)
         return setNonVis
 
-
-
-
-
-
-    def goDeep(self, livello:int, url:str = ""):
+    def goDeep(self, livello: int, url: str = ""):
         if url:
             setNonVis = self.url_dao.getUrls(url)
             self.file_dao.sync_file(setNonVis, self.fileNonVisitati)
@@ -57,18 +50,14 @@ class UrlBusiness():
             setNonVis = self.file_dao.sync_set(self.fileNonVisitati)
         print(len(setNonVis))
         print(setNonVis)
-        while livello>0:
+        while livello > 0:
             setNonVis = self.takeUrls(setNonVis)
             livello -= 1
 
         return self.setArticles
 
 
-
-
 if __name__ == '__main__':
-
-
     prova = UrlBusiness()
     p = prova.goDeep(2, "https://www.lastampa.it/")
 
@@ -78,4 +67,3 @@ if __name__ == '__main__':
     #     if count == 10:
     #         break
     #     print(article.url, article.date, article.author, article.title, article.body)
-
