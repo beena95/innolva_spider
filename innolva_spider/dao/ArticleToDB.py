@@ -2,7 +2,7 @@ from innolva_spider.dao.mongoDAO import MongoDAO
 
 
 class ArticleToDB(MongoDAO):
-    def __init__(self, host, port, db):
+    def __init__(self, host:str = "localhost", port:int = 27017, db:str = "ARTICLE_DB"):
         super().__init__(host, port, db)
 
     def save(self, obj, collection: str):
