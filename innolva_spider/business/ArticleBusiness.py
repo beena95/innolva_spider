@@ -15,7 +15,6 @@ class ArticleBusiness:
         self.soup = self.soupUrl()
         self.article = Article(self.url, self.getDate(), self.getAuthor(), self.getTitle(), self.getBody())
 
-
     def url_to_mongodb(self):
         self.database.object_to_dict(self.article, "articles_collection")
 

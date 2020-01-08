@@ -11,6 +11,7 @@ from innolva_spider.business.ArticleBusiness import ArticleBusiness
 
 
 class UrlBusiness():
+
     def __init__(self):
         self.url_dao = UrlDAO()
         self.file_dao = FileDAO()
