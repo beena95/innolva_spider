@@ -2,7 +2,7 @@ from innolva_spider.dao.mongoDAO import MongoDAO
 
 
 class ArticleToDB(MongoDAO):
-    def __init__(self, host:str = "localhost", port:int = 27017, db:str = "ARTICLE_DB"):
+    def __init__(self, host: str = "localhost", port: int = 27017, db: str = "ARTICLE_DB"):
         super().__init__(host, port, db)
 
     def save(self, obj, collection: str):
@@ -11,10 +11,10 @@ class ArticleToDB(MongoDAO):
             coll.insert_one({"Link": obj})
         else:
             dict = {
-                "URL": obj.URL,
-                "Data": obj.data,
-                "Autore": obj.autore,
-                "Titolo": obj.titolo,
+                "Link": obj.url,
+                "Data": obj.date,
+                "Autore": obj.author,
+                "Titolo": obj.title,
                 "Body": obj.body}
             coll.insert_one(dict)
 
@@ -25,10 +25,10 @@ class ArticleToDB(MongoDAO):
                 coll.insert_one({"Link": link})
             else:
                 dict = {
-                    "URL": link.URL,
-                    "Data": link.data,
-                    "Autore": link.autore,
-                    "Titolo": link.titolo,
+                    "Link": link.url,
+                    "Data": link.date,
+                    "Autore": link.author,
+                    "Titolo": link.title,
                     "Body": link.body}
                 coll.insert_one(dict)
 
