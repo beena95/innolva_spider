@@ -1,12 +1,12 @@
+from innolva_spider.dao.ArticleToDB import ArticleToDB
 from innolva_spider.model.Article import Article
-from innolva_spider.business.URLinformations import LinksForMongo
 from bs4 import BeautifulSoup
 import re
 import requests
 
 
 class ArticleBusiness:
-    database = LinksForMongo("localhost", 27017, "articles_mongodb")
+    database = ArticleToDB("localhost", 27017, "articles_mongodb")
 
     def __init__(self, url):
         self.url = url
@@ -16,7 +16,7 @@ class ArticleBusiness:
     # def url_to_mongodb(self):
     #     self.database.object_to_dict(self.article, "articles_collection")
 
-    def soupUrl(self):
+    def soup_url(self):
         try:
             r = requests.get(self.url)
             soup = BeautifulSoup(r.content, "html.parser")

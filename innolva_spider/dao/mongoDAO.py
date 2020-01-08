@@ -1,6 +1,7 @@
 from bson import ObjectId
 from pymongo import MongoClient, DESCENDING
 
+
 class MongoDAO:
     def __init__(self, host, port, db):
         self.db = db
@@ -109,3 +110,6 @@ class MongoDAO:
         coll = self.get_coll(collection)
         return coll.find_one(sort=[('_id', DESCENDING)])
 
+    def clear_collection(self, collection):
+        coll = self.get_coll(collection)
+        coll.remove({})
