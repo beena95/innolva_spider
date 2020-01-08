@@ -65,7 +65,7 @@ class MongoDAO:
         coll = self.get_coll(collection)
         for el in coll.find().skip(start):
             el["_id"] = str(el["_id"])
-            my_set.add(el)
+            my_set.add(el["Link"])
         return my_set
 
 
