@@ -17,7 +17,7 @@ if __name__ == '__main__':
     URL1 = Article("https://www.corriere.it/", None, "LORENZO BINACCI", "sbakbfafb", "kjdasodhsalhaslkcjakofchaso")
 
     lista = ["dfdwwx", "dsasfqw", "rgfdwxasdas", "adsafs", "cwqdwsa", "fsadsda"]
-    database = ArticleToDB("Localhost", 27017, "URLs")
+    database = ArticleToDB()
     #database.object_to_json(lista, "collection")
     #database.delete_by_id("collection", "5dfba3775846ef0f6e71ee39")
     #database.save(URL, "Articoli")
@@ -36,6 +36,7 @@ if __name__ == '__main__':
     # for article in database.all("Links"):
     #     print(type(article))
     # database.save_list(lista, "Links aggiornati")
-    # print((database.links_list("Links aggiornati")))
+    database.count("Links aggiornati")
+
     
 
