@@ -1,25 +1,24 @@
 from innolva_spider.dao.ArticleToDB import ArticleToDB
 from innolva_spider.model.Article import Article
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, SoupStrainer
 import re
 import requests
 
 
 class ArticleBusiness:
-    database = ArticleToDB("localhost", 27017, "articles_mongodb")
 
     def __init__(self, url):
         self.url = url
         self.soup = self.soup_url()
         self.article = Article(self.url, self.get_date(), self.get_author(), self.get_title(), self.get_body())
 
-    # def url_to_mongodb(self):
-    #     self.database.object_to_dict(self.article, "articles_collection")
+
 
     def soup_url(self):
         try:
             r = requests.get(self.url)
-            soup = BeautifulSoup(r.content, "html.parser")
+            parse_only = SoupStrainer({'span':'entry__date', 'h1': 'entry__title', 'div':['entry__meta', 'entry__content']})
+            soup = BeautifulSoup(r.content, "html.parser", parse_only = parse_only)
             return soup
         except:
             return None
@@ -38,8 +37,7 @@ class ArticleBusiness:
 
     def get_title(self):
         try:
-            container = self.soup.find("h1", "entry__title")
-            title = container.text
+            title = self.soup.title.text
             return title
         except:
             return None

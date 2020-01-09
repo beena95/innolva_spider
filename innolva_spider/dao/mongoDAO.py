@@ -122,3 +122,4 @@ class MongoDAO:
     def clear_collection(self, collection):
         coll = self.get_coll(collection)
         coll.remove({})
+

@@ -1,4 +1,6 @@
-from bs4 import BeautifulSoup
+from multiprocessing.pool import Pool
+
+from bs4 import BeautifulSoup, SoupStrainer
 import requests
 import re
 from urllib.parse import urlparse
@@ -13,13 +15,20 @@ class UrlDAO:
     def get_urls(self, url: str):
 
         r = requests.get(url, timeout=1)
-        soup = BeautifulSoup(r.content)
+        parse_only = SoupStrainer({'a':'href'})
+        soup = BeautifulSoup(r.content, parse_only = parse_only)
         s = set()
 
-        for tag in soup.findAll('a', href=True):
+
+
+        # for tag in soup.findAll():
+        #     s.add(tag)
+
+
+        for tag in soup.findAll('a'):
             if self.check_url(tag['href']):
                 s.add(tag['href'])
-                # self.uV.addUrl(tag['href'], text)
+
 
         return s
 
@@ -32,6 +41,11 @@ class UrlDAO:
         else:
             return False
 
+    def pool_get_urls(self, subprocesses:int = 5):
+        pool = Pool(subprocesses)
+        with pool as p:
+            set_urls = p.map(self.get_urls(), self.get_urls(self.url))
+        return set_urls
 
 if __name__ == '__main__':
 
