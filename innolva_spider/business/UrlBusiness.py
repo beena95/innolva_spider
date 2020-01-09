@@ -25,7 +25,7 @@ class UrlBusiness:
 
     def __init__(self):
         self.url_dao = UrlDAO()
-        self.articles_to_db = ArticleToDB()
+        self.articles_to_db = ArticleToDB(("mongodb+srv://username:password@dbarticles-qv1r7.mongodb.net/test?retryWrites=true&w=majority", "DBARTICLES"))
         self.setArticles = set()
 
     def timer(func):

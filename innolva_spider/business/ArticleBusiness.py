@@ -7,6 +7,10 @@ import requests
 
 class ArticleBusiness:
 
+
+   ("mongodb+srv://username:password@dbarticles-qv1r7.mongodb.net/test?retryWrites=true&w=majority", "DBARTICLES")
+
+
     def __init__(self, url):
         self.url = url
         self.soup = self.soup_url()

@@ -6,10 +6,8 @@ from urllib.parse import urlparse
 
 
 class UrlDAO:
-    # def __init__(self):
-    #     self.s = set()
 
-    """Funziona che , dato un url in input, restituisce un set con gli url al suo interno dello stesso dominio"""
+    """Funzione che , dato un url in input, restituisce un set con gli url al suo interno dello stesso dominio"""
 
     def get_urls(self, url: str) -> set:
 
