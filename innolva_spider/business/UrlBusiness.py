@@ -6,6 +6,21 @@ from innolva_spider.dao.ArticleToDB import ArticleToDB
 from innolva_spider.business.ArticleBusiness import ArticleBusiness
 
 
+# import time
+#
+#
+# def timer(func):
+#     def wrapper(*args, **kwargs):
+#         start_time = time.time()
+#         ret_value = func(*args, **kwargs)
+#         end_time = time.time()
+#         num_seconds = end_time - start_time
+#         print("- Time for compute \'" + func.__name__ + "\':" + str(round(num_seconds, 4)) + " s")
+#         return ret_value
+#
+#     return wrapper
+
+
 class UrlBusiness:
 
     def __init__(self):
@@ -68,7 +83,6 @@ class UrlBusiness:
 
 
 if __name__ == '__main__':
-
 
     prova = UrlBusiness()
     p = prova.go_deep(2, "https://www.lastampa.it/")

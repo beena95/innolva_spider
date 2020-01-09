@@ -14,6 +14,8 @@ class ArticleBusiness:
 
 
 
+    """Restituisce un oggetto BeautifulSoup se la richiesta di connessionee va a buon fine"""
+
     def soup_url(self):
         try:
             r = requests.get(self.url)
@@ -26,6 +28,8 @@ class ArticleBusiness:
         # except ConnectionError as e:
         #     print("handling a ", type(e))  # controlla (, o format) stampare stack
 
+    """Dato un url, restituisce la data pubblicazione"""
+
     def get_date(self):
         try:
             container = self.soup.find("span", "entry__date")
@@ -35,12 +39,15 @@ class ArticleBusiness:
         except:
             return None
 
+    """Dato un url, restituisce il titolo"""
+
     def get_title(self):
         try:
-            title = self.soup.title.text
-            return title
+            return self.soup.title.text
         except:
             return None
+
+    """Dato un url, restituisce l'autore"""
 
     def get_author(self):
         try:
@@ -50,10 +57,12 @@ class ArticleBusiness:
         except:
             return None
 
+    """Dato un url, restituisce il corpo"""
+
     def get_body(self):
         try:
             containers = self.soup.find("div", {"class": "entry__content", "id": "article-body"})
-            find_p = containers.findAll("p")
+            find_p = containers.find_all("p")
             body = ' '.join(p.text for p in find_p if not p.find("span"))
             body = body.replace("\n", "")
             body = re.sub(r'(?<=[.])', r'\n', body)
