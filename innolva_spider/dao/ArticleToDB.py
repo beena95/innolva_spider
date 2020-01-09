@@ -7,6 +7,7 @@ class ArticleToDB(MongoDAO):
         super().__init__(host, port, db)
 
     def save(self, obj, collection: str):
+        """save a single article or a single string"""
         coll = self.get_coll(collection)
         if type(obj) == str:
             coll.insert_one({"Link": obj})
@@ -21,6 +22,7 @@ class ArticleToDB(MongoDAO):
             coll.insert_one(dict)
 
     def save_list(self, obj, collection: str):
+        """save multiple obj or str inside a list"""
         coll = self.get_coll(collection)
         for link in obj:
             if type(link) == str:
@@ -35,12 +37,7 @@ class ArticleToDB(MongoDAO):
                     }
                 coll.insert_one(dict)
 
-    def create_collection(self, collection: str):
-        try:
-            self.client[self.db][collection]
-        except:
-            print("this collection can't be created")
-
     def update_multiple_by_condition_dict(self, collection: str, condition_dict: dict, update_dict: dict):
+        """update multiple documents that match a condition"""
         coll = self.get_coll(collection)
         coll.update_many(condition_dict, {"$set": update_dict}, upsert=True)
