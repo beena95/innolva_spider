@@ -16,7 +16,6 @@ class UrlDAO:
         parse_just = SoupStrainer({"a": "href"})
         soup = BeautifulSoup(r.content, "html.parser", parse_only=parse_just)
         local_set = set()
-
         for tag in soup:
             if self.check_url(tag['href']):
                 local_set.add(tag['href'])
@@ -37,6 +36,6 @@ class UrlDAO:
 
 if __name__ == '__main__':
     prova = UrlDAO()
-    print(len(prova.get_urls('http://lastampa.it')))
+    print(prova.get_urls('http://lastampa.it'))
     # for n in prova.get_urls('http://lastampa.it'):
     #     print(n)
