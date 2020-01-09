@@ -3,10 +3,10 @@ from innolva_spider.dao.ArticleToDB import ArticleToDB
 
 class Article:
     def __init__(self, URL, data, autore, titolo, body):
-        self.URL = URL
-        self.data = data
-        self.autore = autore
-        self.titolo = titolo
+        self.url = URL
+        self.date = data
+        self.author = autore
+        self.title = titolo
         self.body = body
 if __name__ == '__main__':
 
@@ -15,9 +15,9 @@ if __name__ == '__main__':
                "Storia di un uomo molto strano che diceva parole dure",
                "C'era una volta un uomo che diceva cose molto strane e questo lo rendeva ancora piu' strano, stranamente pero' le sue stranezze erano una delle cose piu' ambigue e strane presenti su questo mondo di strabe stranezze")
     URL1 = Article("https://www.corriere.it/", None, "LORENZO BINACCI", "sbakbfafb", "kjdasodhsalhaslkcjakofchaso")
-
+    a = "Articles"
     lista = ["dfdwwx", "dsasfqw", "rgfdwxasdas", "adsafs", "cwqdwsa", "fsadsda"]
-    database = ArticleToDB()
+    database = ArticleToDB("mongodb+srv://beena95:xdzm6m6v2@dbarticles-qv1r7.mongodb.net/test?retryWrites=true&w=majority", "DBARTICLES")
     #database.object_to_json(lista, "collection")
     #database.delete_by_id("collection", "5dfba3775846ef0f6e71ee39")
     #database.save(URL, "Articoli")
@@ -36,7 +36,9 @@ if __name__ == '__main__':
     # for article in database.all("Links"):
     #     print(type(article))
     # database.save_list(lista, "Links aggiornati")
-    database.count("Links aggiornati")
+    for link in database.query("ARTICLES_COLLECTION", {"Data":"04 Gennaio 2020"}, {"_id"}):
+         print(link)
+
 
     
 
