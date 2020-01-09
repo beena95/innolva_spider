@@ -6,6 +6,7 @@ import requests
 
 
 class ArticleBusiness:
+
     database = ArticleToDB("localhost", 27017, "articles_mongodb")
 
     def __init__(self, url):
