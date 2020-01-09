@@ -36,8 +36,7 @@ if __name__ == '__main__':
     # for article in database.all("Links"):
     #     print(type(article))
     # database.save_list(lista, "Links aggiornati")
-    for link in database.query("ARTICLES_COLLECTION", {"Data":"04 Gennaio 2020"}, {"_id"}):
-         print(link)
+
 
 
     

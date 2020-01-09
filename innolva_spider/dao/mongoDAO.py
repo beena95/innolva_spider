@@ -9,48 +9,26 @@ class MongoDAO:
         self.host = host
         self.client = MongoClient(host=self.host)
 
-    def save(self, collection, obj):
-        coll = self.get_coll(collection)
-        if not type(obj) == list:
-            obj = [obj]
-        obj_to_insert = [o for o in obj if "_id" not in o]
-        obj_to_update = [o for o in obj if "_id" in o]
-        # insert on object without "_id" field
-        if len(obj_to_insert) > 0:
-            coll.insert(obj_to_insert, check_keys=False)
-        # update on object with "_id" field
-        for o in obj_to_update:
-            id_ob = o["_id"]
-            del o["_id"]
-            try:
-                doc = coll.find_one_and_update(
-                    {"_id": ObjectId(id_ob)},
-                    {"$set": o}, upsert=True)
-                if not doc:
-                    coll.insert(o, check_keys=False)
-            except:
-                coll.insert(o, check_keys=False)
-
     def update_by_id(self, collection: str, id: str, key_values_dict: dict):
         """this function updates the document that match the input id"""
         coll = self.get_coll(collection)
         if self.get_by_id(collection, id):
             coll.find_one_and_update({"_id": ObjectId(id)}, {"$set": key_values_dict}, upsert=True)
 
-    def update_by_condition_dict(self, collection, conditiondict: dict, updatedict: dict):
+    def update_by_condition_dict(self, collection, condition_dict: dict, update_dict: dict):
         """this function updates the document that match the condition"""
         coll = self.get_coll(collection)
-        coll.update_one(conditiondict, {"$set": updatedict}, upsert=True)
+        coll.update_one(condition_dict, {"$set": update_dict}, upsert=True)
 
     def delete_by_id(self, collection: str, id: str):
         """this function delete the document that match input id"""
         coll = self.get_coll(collection)
         coll.remove({"_id": ObjectId(id)})
 
-    def delete_by_condition_dict(self, collection: str, conditiondict: dict):
+    def delete_by_condition_dict(self, collection: str, condition_dict: dict):
         """this function delete the first document that match the condition"""
         coll = self.get_coll(collection)
-        coll.remove(conditiondict, True)
+        coll.remove(condition_dict, True)
 
     def all(self, collection: str, start: int = 0, rows: int = None, selection=None):
         """return the whole collection"""
@@ -82,10 +60,10 @@ class MongoDAO:
         el["_id"] = str(el["_id"])
         return el
 
-    def get_by_condition_dict(self, collection: str, conditiondict: dict):
+    def get_by_condition_dict(self, collection: str, condition_dict: dict):
         """get the document based on id"""
         coll = self.get_coll(collection)
-        el = coll.find_one(conditiondict)
+        el = coll.find_one(condition_dict)
         if not el:
             raise Exception("Element not found")
         return el
