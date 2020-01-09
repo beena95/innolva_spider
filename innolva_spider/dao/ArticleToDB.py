@@ -3,7 +3,10 @@ from innolva_spider.dao.mongoDAO import MongoDAO
 
 class ArticleToDB(MongoDAO):
 
-    def __init__(self, host,db):
+    def __init__(self,
+                 host: str = "mongodb+srv://username:password@dbarticles-qv1r7.mongodb.net/test?retryWrites=true&w=majority",
+                 db: str = "DBARTICLES"):
+
         super().__init__(host, db)
 
     def save(self, obj, collection: str):
@@ -18,7 +21,7 @@ class ArticleToDB(MongoDAO):
                 "Autore": obj.author,
                 "Titolo": obj.title,
                 "Body": obj.body
-                }
+            }
             coll.insert_one(dict)
 
     def save_list(self, obj, collection: str):
@@ -34,7 +37,7 @@ class ArticleToDB(MongoDAO):
                     "Autore": link.author,
                     "Titolo": link.title,
                     "Body": link.body
-                    }
+                }
                 coll.insert_one(dict)
 
     def update_multiple_by_condition_dict(self, collection: str, condition_dict: dict, update_dict: dict):
@@ -44,5 +47,5 @@ class ArticleToDB(MongoDAO):
 
 
 if __name__ == '__main__':
-    database = ArticleToDB("mongodb+srv://username:password@dbarticles-qv1r7.mongodb.net/test?retryWrites=true&w=majority", "DBARTICLES")
-    database.save()
+    database = ArticleToDB(
+        "mongodb+srv://username:password@dbarticles-qv1r7.mongodb.net/test?retryWrites=true&w=majority", "DBARTICLES")

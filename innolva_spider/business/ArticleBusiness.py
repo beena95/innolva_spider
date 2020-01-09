@@ -7,7 +7,7 @@ import requests
 
 class ArticleBusiness:
 
-    database = ArticleToDB("localhost", 27017, "articles_mongodb")
+    database = ArticleToDB("mongodb+srv://username:password@dbarticles-qv1r7.mongodb.net/test?retryWrites=true&w=majority", "DBARTICLES")
 
     def __init__(self, url):
         self.url = url
