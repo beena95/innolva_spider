@@ -4,11 +4,10 @@ from pymongo import MongoClient, DESCENDING
 
 class MongoDAO:
 
-    def __init__(self, host, port, db):
+    def __init__(self, host, db):
         self.db = db
         self.host = host
-        self.port = port
-        self.client = MongoClient(host=self.host, port=self.port)
+        self.client = MongoClient(host=self.host)
 
     def save(self, collection, obj):
         coll = self.get_coll(collection)
