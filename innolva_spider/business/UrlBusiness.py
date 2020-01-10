@@ -1,3 +1,6 @@
+import time
+from multiprocessing.pool import Pool
+
 from innolva_spider.dao.UrlDAO import UrlDAO
 from innolva_spider.dao.ArticleToDB import ArticleToDB
 from innolva_spider.business.ArticleBusiness import ArticleBusiness
@@ -25,36 +28,53 @@ class UrlBusiness:
         self.articles_to_db = ArticleToDB()
         self.setArticles = set()
 
-    """Funzione che salva url non visitati, visitati e articoli scaricati"""
+    def timer(func):
+        def wrapper(*args, **kwargs):
+            start_time = time.time()
+            ret_value = func(*args, **kwargs)
+            end_time = time.time()
+            num_seconds = end_time - start_time
+            print("- Time for compute \'" + func.__name__ + "\':" + str(round(num_seconds, 4)) + " s")
+            return ret_value
+
+        return wrapper
+
 
     def take_urls(self, set_non_vis: set) -> set:
+        """Funzione che salva url non visitati, visitati e articoli scaricati"""
         set_vis = self.articles_to_db.links_list("VISITATI")
         set_urls = set_non_vis.difference(set_vis)
         for url in set_urls:
-            self.articles_to_db.delete_by_condition_dict("NON VISITATI", {"Link": url})
             try:
                 set_non_vis = set_non_vis.union(self.url_dao.get_urls(url))
             except:
                 continue
             self.articles_to_db.save(url, "VISITATI")
-            if ArticleBusiness(url).get_body():
-                url_article = ArticleBusiness(url).article
-                # self.setArticles.add(url_article)
-                self.articles_to_db.save(url_article, "ARTICLES_COLLECTION")
+            self.add_article(url)
 
         print(len(set_non_vis))
         set_non_vis.difference_update(set_urls)
         print(len(set_non_vis))
-        self.articles_to_db.save_list(set_non_vis, "NON VISITATI")
         return set_non_vis
 
-    """Funzione che dato, un url ed un livello di difficoltà, scava all'interno dell'url cercando altri url"""
+    def add_article(self, url):
+        """Funzione che scarica gli articoli"""
+        if ArticleBusiness(url).get_body():
+            url_article = ArticleBusiness(url).article
+            # self.setArticles.add(url_article)
+            self.articles_to_db.save(url_article, "ARTICLES_COLLECTION")
 
-    # @timer
+
+    @timer
     def go_deep(self, livello: int, url: str = ""):
+        """Funzione che dato, un url ed un livello di difficoltà, scava all'interno dell'url cercando altri url"""
         # gestire get primo url
         if url:
             set_non_vis = self.url_dao.get_urls(url)
+            # cancella elementi delle collection per i test
+            self.articles_to_db.clear_collection("VISITATI")
+            self.articles_to_db.clear_collection("ARTICLES_COLLECTION")
+            self.articles_to_db.clear_collection("NON VISITATI")
         else:
             set_non_vis = self.articles_to_db.links_list("NON VISITATI")
         print(len(set_non_vis))
@@ -62,9 +82,18 @@ class UrlBusiness:
         while livello > 0:
             set_non_vis = self.take_urls(set_non_vis)
             livello -= 1
+        self.articles_to_db.save_list(set_non_vis, "NON VISITATI")
+
+
+    # # def pool_urls(self, set_non_vis):
+    # #     pool = Pool(10)
+    # #     pooled_set_urls =
+    #
+    #     return pooled_set_urls
 
 
 if __name__ == '__main__':
+
     prova = UrlBusiness()
     p = prova.go_deep(2, "https://www.lastampa.it/")
 
