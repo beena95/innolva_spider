@@ -45,7 +45,3 @@ class ArticleToDB(MongoDAO):
         coll = self.get_coll(collection)
         coll.update_many(condition_dict, {"$set": update_dict}, upsert=True)
 
-
-if __name__ == '__main__':
-    database = ArticleToDB(
-        "mongodb+srv://username:password@dbarticles-qv1r7.mongodb.net/test?retryWrites=true&w=majority", "DBARTICLES")
