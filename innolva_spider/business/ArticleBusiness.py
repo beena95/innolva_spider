@@ -16,9 +16,9 @@ class ArticleBusiness:
 
 
 
-    """Restituisce un oggetto BeautifulSoup se la richiesta di connessionee va a buon fine"""
 
     def soup_url(self):
+        """Restituisce un oggetto BeautifulSoup se la richiesta di connessionee va a buon fine"""
         try:
             r = requests.get(self.url)
             parse_only = SoupStrainer({'span':'entry__date', 'h1': 'entry__title', 'div':['entry__meta', 'entry__content']})

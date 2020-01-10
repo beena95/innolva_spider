@@ -39,9 +39,9 @@ class UrlBusiness:
 
         return wrapper
 
-    """Funzione che salva url non visitati, visitati e articoli scaricati"""
 
     def take_urls(self, set_non_vis: set) -> set:
+        """Funzione che salva url non visitati, visitati e articoli scaricati"""
         set_vis = self.articles_to_db.links_list("VISITATI")
         set_urls = set_non_vis.difference(set_vis)
         for url in set_urls:
@@ -58,15 +58,16 @@ class UrlBusiness:
         return set_non_vis
 
     def add_article(self, url):
+        """Funzione che scarica gli articoli"""
         if ArticleBusiness(url).get_body():
             url_article = ArticleBusiness(url).article
             # self.setArticles.add(url_article)
             self.articles_to_db.save(url_article, "ARTICLES_COLLECTION")
 
-    """Funzione che dato, un url ed un livello di difficoltà, scava all'interno dell'url cercando altri url"""
 
     @timer
     def go_deep(self, livello: int, url: str = ""):
+        """Funzione che dato, un url ed un livello di difficoltà, scava all'interno dell'url cercando altri url"""
         # gestire get primo url
         if url:
             set_non_vis = self.url_dao.get_urls(url)
@@ -84,16 +85,17 @@ class UrlBusiness:
         self.articles_to_db.save_list(set_non_vis, "NON VISITATI")
 
 
+    # # def pool_urls(self, set_non_vis):
+    # #     pool = Pool(10)
+    # #     pooled_set_urls =
+    #
+    #     return pooled_set_urls
+
 
 if __name__ == '__main__':
 
     prova = UrlBusiness()
-    # p = prova.go_deep(2, "https://www.lastampa.it/")
-    urls = []
-    pool = Pool(10)
-    pool.starmap(prova.go_deep(2, "https://www.lastampa.it/"), urls)
-    pool.terminate()
-    pool.join()
+    p = prova.go_deep(2, "https://www.lastampa.it/")
 
     # count = 0
     # for article in p:
