@@ -71,7 +71,7 @@ class UrlBusiness:
             set_non_vis = self.url_dao.get_urls(url)
             # cancella elementi delle collection per i test
             self.articles_to_db.clear_collection("VISITATI")
-            self.articles_to_db.clear_collection("SCARICATI")
+            self.articles_to_db.clear_collection("ARTICLES_COLLECTION")
             self.articles_to_db.clear_collection("NON VISITATI")
         else:
             set_non_vis = self.articles_to_db.links_list("NON VISITATI")
