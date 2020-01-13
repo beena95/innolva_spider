@@ -21,6 +21,7 @@ class UrlBusiness:
     def __init__(self):
         self.url_dao = UrlDAO()
         self.articles_to_db = ArticleToDB()
+        self.a_business = ArticleBusiness()
         self.setArticles = set()
 
     def take_urls(self, set_non_vis: set) -> set:
@@ -42,10 +43,10 @@ class UrlBusiness:
 
     def add_article(self, url):
         """Funzione che scarica gli articoli"""
-        if ArticleBusiness(url).get_body():
-            url_article = ArticleBusiness(url).article
-            # self.setArticles.add(url_article)
-            self.articles_to_db.save(url_article, "ARTICLES_COLLECTION")
+        article = self.a_business.download(url)
+        if article.body:
+            # self.setArticles.add(article)
+            self.articles_to_db.save(article, "ARTICLES_COLLECTION")
 
     @timer
     def go_deep(self, livello: int, url: str = ""):
@@ -60,7 +61,6 @@ class UrlBusiness:
         else:
             set_non_vis = self.articles_to_db.links_list("NON VISITATI")
         print(len(set_non_vis))
-        # print(set_non_vis)
         while livello > 0:
             set_non_vis = self.take_urls(set_non_vis)
             livello -= 1
