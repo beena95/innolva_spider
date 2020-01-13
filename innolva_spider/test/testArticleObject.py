@@ -1,4 +1,4 @@
-from innolva_spider.dao.ArticleToDB import ArticleToDB
+from innolva_spider.innolva_spider.dao.ArticleToDB import ArticleToDB
 
 
 class Article:
@@ -29,7 +29,8 @@ if __name__ == '__main__':
     #print(database.count("Articoli"))
     #print(database.get_by_conditiondict("Articoli", {"Autore" :"LORENZO BINACCI"}))
     #database.update_multiple_by_conditiondict("Articoli", {"Autore" :"LORENZO BINACCI"},{"Body" : "Gnagna"} )
-    #database.save(lista, "Articoli")
+    database.save_article("Articoli", URL)
+
     # for link in database.query("Articoli", {"Autore" :"LORENZO BINACCI"}):
     #     print(link)
     # database.save(URL, "mario")
