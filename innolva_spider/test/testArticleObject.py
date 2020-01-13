@@ -29,7 +29,7 @@ if __name__ == '__main__':
     #print(database.count("Articoli"))
     #print(database.get_by_conditiondict("Articoli", {"Autore" :"LORENZO BINACCI"}))
     #database.update_multiple_by_conditiondict("Articoli", {"Autore" :"LORENZO BINACCI"},{"Body" : "Gnagna"} )
-    database.save_article("Articoli", URL)
+    database.save("Articoli", URL)
 
     # for link in database.query("Articoli", {"Autore" :"LORENZO BINACCI"}):
     #     print(link)
