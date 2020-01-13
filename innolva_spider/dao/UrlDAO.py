@@ -1,4 +1,3 @@
-
 from bs4 import BeautifulSoup, SoupStrainer
 import requests
 import re
@@ -6,7 +5,6 @@ from urllib.parse import urlparse
 
 
 class UrlDAO:
-
     """Funzione che , dato un url in input, restituisce un set con gli url al suo interno dello stesso dominio"""
 
     def get_urls(self, url: str) -> set:
@@ -19,7 +17,6 @@ class UrlDAO:
         for tag in soup:
             if self.check_url(tag['href']):
                 local_set.add(tag['href'])
-
 
         return local_set
 

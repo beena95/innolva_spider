@@ -1,24 +1,19 @@
 import time
-from multiprocessing.pool import Pool
-
 from innolva_spider.dao.UrlDAO import UrlDAO
 from innolva_spider.dao.ArticleToDB import ArticleToDB
 from innolva_spider.business.ArticleBusiness import ArticleBusiness
 
 
-# import time
-#
-#
-# def timer(func):
-#     def wrapper(*args, **kwargs):
-#         start_time = time.time()
-#         ret_value = func(*args, **kwargs)
-#         end_time = time.time()
-#         num_seconds = end_time - start_time
-#         print("- Time for compute \'" + func.__name__ + "\':" + str(round(num_seconds, 4)) + " s")
-#         return ret_value
-#
-#     return wrapper
+def timer(func):
+    def wrapper(*args, **kwargs):
+        start_time = time.time()
+        ret_value = func(*args, **kwargs)
+        end_time = time.time()
+        num_seconds = end_time - start_time
+        print("- Time for compute \'" + func.__name__ + "\':" + str(round(num_seconds, 4)) + " s")
+        return ret_value
+
+    return wrapper
 
 
 class UrlBusiness:
@@ -27,18 +22,6 @@ class UrlBusiness:
         self.url_dao = UrlDAO()
         self.articles_to_db = ArticleToDB()
         self.setArticles = set()
-
-    def timer(func):
-        def wrapper(*args, **kwargs):
-            start_time = time.time()
-            ret_value = func(*args, **kwargs)
-            end_time = time.time()
-            num_seconds = end_time - start_time
-            print("- Time for compute \'" + func.__name__ + "\':" + str(round(num_seconds, 4)) + " s")
-            return ret_value
-
-        return wrapper
-
 
     def take_urls(self, set_non_vis: set) -> set:
         """Funzione che salva url non visitati, visitati e articoli scaricati"""
@@ -64,7 +47,6 @@ class UrlBusiness:
             # self.setArticles.add(url_article)
             self.articles_to_db.save(url_article, "ARTICLES_COLLECTION")
 
-
     @timer
     def go_deep(self, livello: int, url: str = ""):
         """Funzione che dato, un url ed un livello di difficoltà, scava all'interno dell'url cercando altri url"""
@@ -78,22 +60,14 @@ class UrlBusiness:
         else:
             set_non_vis = self.articles_to_db.links_list("NON VISITATI")
         print(len(set_non_vis))
-        print(set_non_vis)
+        # print(set_non_vis)
         while livello > 0:
             set_non_vis = self.take_urls(set_non_vis)
             livello -= 1
         self.articles_to_db.save_list(set_non_vis, "NON VISITATI")
 
 
-    # # def pool_urls(self, set_non_vis):
-    # #     pool = Pool(10)
-    # #     pooled_set_urls =
-    #
-    #     return pooled_set_urls
-
-
 if __name__ == '__main__':
-
     prova = UrlBusiness()
     p = prova.go_deep(2, "https://www.lastampa.it/")
 
