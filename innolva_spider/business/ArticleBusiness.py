@@ -5,8 +5,9 @@ import requests
 
 
 class ArticleBusiness:
+    """Dato un url in input, restituisce un oggetto di tipo Article"""
 
-    def download(self, url):
+    def download(self, url: str) -> Article:
         soup = self.__soup_url(url)
         return Article(url, self.__get_date(soup), self.__get_author(soup), self.__get_title(soup),
                        self.__get_body(soup))
