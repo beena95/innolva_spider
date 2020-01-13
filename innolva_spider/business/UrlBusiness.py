@@ -6,7 +6,7 @@ from innolva_spider.business.ArticleBusiness import ArticleBusiness
 
 def timer(func):
     def wrapper(*args, **kwargs):
-        """returns the time of execution"""
+        """return the time of execution"""
         start_time = time.time()
         ret_value = func(*args, **kwargs)
         end_time = time.time()
@@ -26,7 +26,7 @@ class UrlBusiness:
         self.setArticles = set()
 
     def take_urls(self, set_non_vis: set) -> set:
-        """Save visited and unvisited links and downloaded articles inside the respective collections"""
+        """crawl inside each url, update the collections, return a set of unvisited urls"""
         set_vis = self.articles_to_db.links_list("VISITATI")
         set_urls = set_non_vis.difference(set_vis)
         for url in set_urls:
@@ -43,7 +43,7 @@ class UrlBusiness:
         return set_non_vis
 
     def add_article(self, url):
-        """Download articles"""
+        """download articles and add them in the respective collection"""
         article = self.a_business.download(url)
         if article.body:
             # self.setArticles.add(article)
@@ -51,8 +51,8 @@ class UrlBusiness:
 
     @timer
     def go_deep(self, level: int, url: str):
-        """Crawls inside the url extracting links until it reaches the level of depth
-        and save the unvisited links in the respective collection"""
+        """crawl inside the url until the level of depth is reached,
+        save the unvisited links in the respective collection"""
         # gestire get primo url
         # if url:
         set_non_vis = self.url_dao.get_urls(url)
