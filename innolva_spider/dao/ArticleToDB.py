@@ -4,7 +4,8 @@ from innolva_spider.dao.mongoDAO import MongoDAO
 class ArticleToDB(MongoDAO):
 
     def __init__(self,
-                 host: str = "mongodb+srv://gabmand:12345@dbarticles-qv1r7.mongodb.net/test?retryWrites=true&w=majority",
+
+                 host: str = "mongodb+srv://username:password@dbarticles-qv1r7.mongodb.net/test?retryWrites=true&w=majority",
                  db: str = "DBARTICLES"):
 
         super().__init__(host, db)
@@ -44,4 +45,3 @@ class ArticleToDB(MongoDAO):
         """update multiple documents that match a condition"""
         coll = self.get_coll(collection)
         coll.update_many(condition_dict, {"$set": update_dict}, upsert=True)
-
