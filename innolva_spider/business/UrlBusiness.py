@@ -66,7 +66,7 @@ class UrlBusiness:
         while level > 0:
             set_unvis = self.take_urls(set_unvis)
             level -= 1
-        self.articles_to_db.save("UNVISITED", set_unvis)
+        self.articles_to_db.save_list("UNVISITED", set_unvis)
 
 
 if __name__ == '__main__':
