@@ -1,4 +1,3 @@
-
 from bs4 import BeautifulSoup, SoupStrainer
 import requests
 import re
@@ -7,12 +6,9 @@ from urllib.parse import urlparse
 
 class UrlDAO:
 
-    """Funzione che , dato un url in input, restituisce un set con gli url al suo interno dello stesso dominio"""
-
     def get_urls(self, url: str) -> set:
-
+        """parse an url and return a set containing urls from the same domain"""
         r = requests.get(url, timeout=1)
-
         parse_just = SoupStrainer({"a": "href"})
         soup = BeautifulSoup(r.content, "html.parser", parse_only=parse_just)
         local_set = set()
@@ -20,12 +16,10 @@ class UrlDAO:
             if self.check_url(tag['href']):
                 local_set.add(tag['href'])
 
-
         return local_set
 
-    """Funzione che restituisce True se l'url è dello stesso dominio di quello iniziale, altrimenti restituisce False"""
-
     def check_url(self, url: str) -> bool:
+        """return True if the url is in the same domain"""
         z = re.search("www.lastampa.it", f"{urlparse(url).netloc}://{urlparse(url).netloc}")
         # t = re.search("archiviolastampa.it", f"{urlparse(url).netloc}://{urlparse(url).netloc}")
         g = re.match('(?:http|ftp|https)://', url)

@@ -4,8 +4,9 @@ from innolva_spider.innolva_spider.dao.mongoDAO import MongoDAO
 class ArticleToDB(MongoDAO):
 
     def __init__(self,
+
                  host: str = "mongodb+srv://smantuano:12345@dbarticles-qv1r7.mongodb.net/test?retryWrites=true&w=majority",
-                 db: str = "DBARTICLES"):
+                 db: str = "INNOLVA_SPIDER_DB"):
          super().__init__(host, db)
 
     def save_article(self, collection: str, obj):
@@ -35,5 +36,4 @@ class ArticleToDB(MongoDAO):
             el["_id"] = str(el["_id"])
             my_set.add(el["Link"])
         return my_set
-
 
