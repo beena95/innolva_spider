@@ -1,4 +1,5 @@
 from innolva_spider.innolva_spider.dao.mongoDAO import MongoDAO
+from innolva_spider.innolva_spider.model.Article import Article
 
 
 class ArticleToDB(MongoDAO):
@@ -11,9 +12,10 @@ class ArticleToDB(MongoDAO):
 
     def save(self, collection: str, obj):
         """save a single article or a single string"""
+        dict = {}
         if type(obj) == str:
-            dict = ({"Link": obj})
-        else:
+            dict = {"Link": obj}
+        elif isinstance(obj, Article):
             dict = {
                 "Link": obj.url,
                 "Data": obj.date,
@@ -22,6 +24,26 @@ class ArticleToDB(MongoDAO):
                 "Body": obj.body
             }
         super().save(collection, dict)
+
+    def save_list(self, collection: str, list):
+        """save a single article or a single string"""
+        dict = {}
+        for obj in list:
+            if type(obj) == str:
+                dict = ({"Link": obj})
+            elif isinstance(obj, Article):
+                dict = {
+                    "Link": obj.url,
+                    "Data": obj.date,
+                    "Autore": obj.author,
+                    "Titolo": obj.title,
+                    "Body": obj.body
+                }
+            super().save(collection, dict)
+
+
+
+
 
     def update_multiple_by_condition_dict(self, collection: str, condition_dict: dict, update_dict: dict):
         """update multiple documents that match a condition"""

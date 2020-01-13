@@ -7,6 +7,7 @@ class MongoDAO:
         self.host = host
         self.port = port
         self.client = MongoClient(host=self.host, port=self.port)
+
     def save(self, collection, obj):
         coll = self.getcoll(collection)
         if not type(obj) == list:

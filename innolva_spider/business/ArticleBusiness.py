@@ -1,4 +1,4 @@
-from innolva_spider.model.Article import Article
+from innolva_spider.innolva_spider.model.Article import Article
 from bs4 import BeautifulSoup, SoupStrainer
 import re
 import requests
