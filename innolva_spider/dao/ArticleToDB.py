@@ -9,7 +9,7 @@ class ArticleToDB(MongoDAO):
                  db: str = "INNOLVA_SPIDER_DB"):
          super().__init__(host, db)
 
-    def save_article(self, collection: str, obj):
+    def save(self, collection: str, obj):
         """save a single article or a single string"""
         if type(obj) == str:
             dict = ({"Link": obj})
