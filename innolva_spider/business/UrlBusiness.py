@@ -27,14 +27,14 @@ class UrlBusiness:
 
     def take_urls(self, set_unvis: set) -> set:
         """crawl inside each url, update the collections, return a set of unvisited urls"""
-        set_vis = self.articles_to_db.links_list("VISITATI")
+        set_vis = self.articles_to_db.links_list("VISITED")
         set_urls = set_unvis.difference(set_vis)
         for url in set_urls:
             try:
                 set_unvis = set_unvis.union(self.url_dao.get_urls(url))
             except:
                 continue
-            self.articles_to_db.save(url, "VISITATI")
+            self.articles_to_db.save(url, "VISITED")
             self.add_article(url)
 
         print(len(set_unvis))
@@ -47,7 +47,7 @@ class UrlBusiness:
         article = self.a_business.download(url)
         if article.body:
             # self.setArticles.add(article)
-            self.articles_to_db.save(article, "ARTICLES_COLLECTION")
+            self.articles_to_db.save(article, "ARTICLES")
 
     @timer
     def go_deep(self, level: int, url: str):
@@ -57,21 +57,21 @@ class UrlBusiness:
         # if url:
         set_unvis = self.url_dao.get_urls(url)
         # cancella elementi delle collection per i test
-        self.articles_to_db.clear_collection("VISITATI")
-        self.articles_to_db.clear_collection("ARTICLES_COLLECTION")
-        self.articles_to_db.clear_collection("NON VISITATI")
+        self.articles_to_db.clear_collection("VISITED")
+        self.articles_to_db.clear_collection("ARTICLES")
+        self.articles_to_db.clear_collection("UNVISITED")
         # else:
         #     set_non_vis = self.articles_to_db.links_list("NON VISITATI")
         print(len(set_unvis))
         while level > 0:
             set_unvis = self.take_urls(set_unvis)
             level -= 1
-        self.articles_to_db.save_list(set_unvis, "NON VISITATI")
+        self.articles_to_db.save_list(set_unvis, "UNVISITED")
 
 
 if __name__ == '__main__':
     test = UrlBusiness()
-    t = test.go_deep(2)
+    t = test.go_deep(2, "http://www.lastampa.it")
 
     # count = 0
     # for article in p:
