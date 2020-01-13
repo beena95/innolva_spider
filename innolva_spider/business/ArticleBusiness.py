@@ -5,16 +5,15 @@ import requests
 
 
 class ArticleBusiness:
-    """Dato un url in input, restituisce un oggetto di tipo Article"""
 
     def download(self, url: str) -> Article:
+        """return an Article object from an url in input"""
         soup = self.__soup_url(url)
         return Article(url, self.__get_date(soup), self.__get_author(soup), self.__get_title(soup),
                        self.__get_body(soup))
 
-    """Restituisce un oggetto BeautifulSoup se la richiesta di connessionee va a buon fine"""
-
     def __soup_url(self, url: str):
+        """parse an url and return a BeautifulSoup object if the request was successful"""
         try:
             r = requests.get(url)
             parse_only = SoupStrainer(
@@ -24,9 +23,8 @@ class ArticleBusiness:
         except:
             return None
 
-    """Dato un url, restituisce la data pubblicazione"""
-
     def __get_date(self, soup: BeautifulSoup):
+        """return article publication date"""
         try:
             container = soup.find("span", "entry__date")
             date = container.text.strip("Pubblicato il \n")
@@ -35,17 +33,15 @@ class ArticleBusiness:
         except:
             return None
 
-    """Dato un url, restituisce il titolo"""
-
     def __get_title(self, soup: BeautifulSoup):
+        """return article title"""
         try:
             return soup.title.text
         except:
             return None
 
-    """Dato un url, restituisce l'autore"""
-
     def __get_author(self, soup: BeautifulSoup):
+        """return article author"""
         try:
             container = soup.find('div', attrs={"class": "entry__meta"}).find("span", "entry__author")
             author = container.text
@@ -53,9 +49,8 @@ class ArticleBusiness:
         except:
             return None
 
-    """Dato un url, restituisce il corpo"""
-
     def __get_body(self, soup: BeautifulSoup):
+        """return article body"""
         try:
             containers = soup.find("div", {"class": "entry__content", "id": "article-body"})
             find_p = containers.find_all("p")

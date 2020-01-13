@@ -71,7 +71,7 @@ class UrlBusiness:
 
 if __name__ == '__main__':
     prova = UrlBusiness()
-    p = prova.go_deep(2, "https://www.lastampa.it/")
+    p = prova.go_deep(2)
 
     # count = 0
     # for article in p:

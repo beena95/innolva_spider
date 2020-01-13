@@ -115,4 +115,3 @@ class MongoDAO:
         """remove every document inside a collection"""
         coll = self.get_coll(collection)
         coll.remove({})
-
