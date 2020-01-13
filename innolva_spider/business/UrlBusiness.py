@@ -34,7 +34,7 @@ class UrlBusiness:
                 set_unvis = set_unvis.union(self.url_dao.get_urls(url))
             except:
                 continue
-            self.articles_to_db.save(url, "VISITED")
+            self.articles_to_db.save("VISITED", url)
             self.add_article(url)
 
         print(len(set_unvis))
@@ -47,7 +47,7 @@ class UrlBusiness:
         article = self.a_business.download(url)
         if article.body:
             # self.setArticles.add(article)
-            self.articles_to_db.save(article, "ARTICLES")
+            self.articles_to_db.save("ARTICLES", article)
 
     @timer
     def go_deep(self, level: int, url: str):
@@ -66,7 +66,7 @@ class UrlBusiness:
         while level > 0:
             set_unvis = self.take_urls(set_unvis)
             level -= 1
-        self.articles_to_db.save_list(set_unvis, "UNVISITED")
+        self.articles_to_db.save("UNVISITED", set_unvis)
 
 
 if __name__ == '__main__':
