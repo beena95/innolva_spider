@@ -6,6 +6,7 @@ from innolva_spider.business.ArticleBusiness import ArticleBusiness
 
 def timer(func):
     def wrapper(*args, **kwargs):
+        """returns the time of execution"""
         start_time = time.time()
         ret_value = func(*args, **kwargs)
         end_time = time.time()
@@ -25,7 +26,7 @@ class UrlBusiness:
         self.setArticles = set()
 
     def take_urls(self, set_non_vis: set) -> set:
-        """Funzione che salva url non visitati, visitati e articoli scaricati"""
+        """Save visited and unvisited links and downloaded articles inside the respective collections"""
         set_vis = self.articles_to_db.links_list("VISITATI")
         set_urls = set_non_vis.difference(set_vis)
         for url in set_urls:
@@ -42,28 +43,29 @@ class UrlBusiness:
         return set_non_vis
 
     def add_article(self, url):
-        """Funzione che scarica gli articoli"""
+        """Download articles"""
         article = self.a_business.download(url)
         if article.body:
             # self.setArticles.add(article)
             self.articles_to_db.save(article, "ARTICLES_COLLECTION")
 
     @timer
-    def go_deep(self, livello: int, url: str = ""):
-        """Funzione che dato, un url ed un livello di difficoltà, scava all'interno dell'url cercando altri url"""
+    def go_deep(self, level: int, url: str):
+        """Crawls inside the url extracting links until it reaches the level of depth
+        and save the unvisited links in the respective collection"""
         # gestire get primo url
-        if url:
-            set_non_vis = self.url_dao.get_urls(url)
-            # cancella elementi delle collection per i test
-            self.articles_to_db.clear_collection("VISITATI")
-            self.articles_to_db.clear_collection("ARTICLES_COLLECTION")
-            self.articles_to_db.clear_collection("NON VISITATI")
-        else:
-            set_non_vis = self.articles_to_db.links_list("NON VISITATI")
+        # if url:
+        set_non_vis = self.url_dao.get_urls(url)
+        # cancella elementi delle collection per i test
+        self.articles_to_db.clear_collection("VISITATI")
+        self.articles_to_db.clear_collection("ARTICLES_COLLECTION")
+        self.articles_to_db.clear_collection("NON VISITATI")
+        # else:
+        #     set_non_vis = self.articles_to_db.links_list("NON VISITATI")
         print(len(set_non_vis))
-        while livello > 0:
+        while level > 0:
             set_non_vis = self.take_urls(set_non_vis)
-            livello -= 1
+            level -= 1
         self.articles_to_db.save_list(set_non_vis, "NON VISITATI")
 
 
