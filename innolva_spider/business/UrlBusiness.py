@@ -25,22 +25,22 @@ class UrlBusiness:
         self.a_business = ArticleBusiness()
         self.setArticles = set()
 
-    def take_urls(self, set_non_vis: set) -> set:
+    def take_urls(self, set_unvis: set) -> set:
         """crawl inside each url, update the collections, return a set of unvisited urls"""
         set_vis = self.articles_to_db.links_list("VISITATI")
-        set_urls = set_non_vis.difference(set_vis)
+        set_urls = set_unvis.difference(set_vis)
         for url in set_urls:
             try:
-                set_non_vis = set_non_vis.union(self.url_dao.get_urls(url))
+                set_unvis = set_unvis.union(self.url_dao.get_urls(url))
             except:
                 continue
             self.articles_to_db.save(url, "VISITATI")
             self.add_article(url)
 
-        print(len(set_non_vis))
-        set_non_vis.difference_update(set_urls)
-        print(len(set_non_vis))
-        return set_non_vis
+        print(len(set_unvis))
+        set_unvis.difference_update(set_urls)
+        print(len(set_unvis))
+        return set_unvis
 
     def add_article(self, url):
         """download articles and add them in the respective collection"""
@@ -55,23 +55,23 @@ class UrlBusiness:
         save the unvisited links in the respective collection"""
         # gestire get primo url
         # if url:
-        set_non_vis = self.url_dao.get_urls(url)
+        set_unvis = self.url_dao.get_urls(url)
         # cancella elementi delle collection per i test
         self.articles_to_db.clear_collection("VISITATI")
         self.articles_to_db.clear_collection("ARTICLES_COLLECTION")
         self.articles_to_db.clear_collection("NON VISITATI")
         # else:
         #     set_non_vis = self.articles_to_db.links_list("NON VISITATI")
-        print(len(set_non_vis))
+        print(len(set_unvis))
         while level > 0:
-            set_non_vis = self.take_urls(set_non_vis)
+            set_unvis = self.take_urls(set_unvis)
             level -= 1
-        self.articles_to_db.save_list(set_non_vis, "NON VISITATI")
+        self.articles_to_db.save_list(set_unvis, "NON VISITATI")
 
 
 if __name__ == '__main__':
-    prova = UrlBusiness()
-    p = prova.go_deep(2)
+    test = UrlBusiness()
+    t = test.go_deep(2)
 
     # count = 0
     # for article in p:
