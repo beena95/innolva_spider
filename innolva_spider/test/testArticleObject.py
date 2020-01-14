@@ -1,4 +1,4 @@
-from innolva_spider.dao.ArticleToDB import ArticleToDB
+from innolva_spider.dao.ArticleDAO import ArticleToDB
 from innolva_spider.model.Article import Article
 
 

@@ -2,7 +2,7 @@ import time
 from datetime import datetime
 
 from innolva_spider.dao.UrlRequestDAO import UrlRequestDAO
-from innolva_spider.dao.ArticleToDB import ArticleToDB
+from innolva_spider.dao.ArticleDAO import ArticleToDB
 from innolva_spider.business.ArticleBusiness import ArticleBusiness
 
 

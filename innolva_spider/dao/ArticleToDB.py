@@ -1,6 +1,6 @@
+from innolva_spider.dao import ArticleToDB
 from innolva_spider.dao.mongoDAO import MongoDAO
 from innolva_spider.model.Article import Article
-
 
 class ArticleToDB(MongoDAO):
 
