@@ -47,13 +47,13 @@ class ArticleToDB(MongoDAO):
 
     def update_multiple_by_condition_dict(self, collection: str, condition_dict: dict, update_dict: dict):
         """update multiple documents that match a condition"""
-        coll = self.get_coll(collection)
+        coll = self.getcoll(collection)
         coll.update_many(condition_dict, {"$set": update_dict}, upsert=True)
 
     def links_list(self, collection: str, start: int = 0):
         """return a set that contain all links inside a function"""
         my_set = set()
-        coll = self.get_coll(collection)
+        coll = self.getcoll(collection)
         for el in coll.find().skip(start):
             el["_id"] = str(el["_id"])
             my_set.add(el["Link"])
@@ -61,6 +61,6 @@ class ArticleToDB(MongoDAO):
 
     def clear_collection(self, collection: str):
         """remove every document inside a collection"""
-        coll = self.get_coll(collection)
+        coll = self.getcoll(collection)
         coll.remove()
 
