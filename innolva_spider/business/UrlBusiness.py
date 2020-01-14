@@ -22,7 +22,7 @@ def timer(func):
 class UrlBusiness:
 
     def __init__(self):
-        self.url_dao = UrlRequestDAO()
+        self.url_request = UrlRequestDAO()
         self.articles_to_db = ArticleToDB()
         self.a_business = ArticleBusiness()
         self.setArticles = set()
@@ -33,8 +33,8 @@ class UrlBusiness:
         set_urls = set_unvis.difference(set_vis)
         for url in set_urls:
             try:
-                set_to_check = self.url_dao.get_urls(url)
-                set_unvis = url_dao_mongo.check_visited(set_to_check)
+                set_to_check = self.url_request.get_urls(url)
+                # set_unvis = url_dao_mongo.check_visited(set_to_check)
 
             except:
                 continue
@@ -59,7 +59,7 @@ class UrlBusiness:
         save the unvisited links in the respective collection"""
         # gestire get primo url
         # if url:
-        set_unvis = self.url_dao.get_urls(url)
+        set_unvis = self.url_request.get_urls(url)
         # cancella elementi delle collection per i test
         self.articles_to_db.clear_collection("VISITED")
         self.articles_to_db.clear_collection("ARTICLES")
