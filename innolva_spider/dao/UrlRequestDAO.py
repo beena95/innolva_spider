@@ -4,7 +4,7 @@ import re
 from urllib.parse import urlparse
 
 
-class UrlDAO:
+class UrlRequestDAO:
 
     def get_urls(self, url: str) -> set:
         """parse an url and return a set containing urls from the same domain"""
