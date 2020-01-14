@@ -1,5 +1,4 @@
-from innolva_spider.dao.ArticleToDB import ArticleToDB
-from innolva_spider.model.Article import Article
+from innolva_spider.innolva_spider.model.Article import Article
 from bs4 import BeautifulSoup, SoupStrainer
 import re
 import requests
@@ -7,63 +6,53 @@ import requests
 
 class ArticleBusiness:
 
+    def download(self, url: str) -> Article:
+        """return an Article object from an url in input"""
+        soup = self.__soup_url(url)
+        return Article(url, self.__get_date(soup), self.__get_author(soup), self.__get_title(soup),
+                       self.__get_body(soup))
 
-
-    def __init__(self, url):
-        self.url = url
-        self.soup = self.soup_url()
-        self.article = Article(self.url, self.get_date(), self.get_author(), self.get_title(), self.get_body())
-
-
-
-
-    def soup_url(self):
-        """Restituisce un oggetto BeautifulSoup se la richiesta di connessionee va a buon fine"""
+    def __soup_url(self, url: str):
+        """parse an url and return a BeautifulSoup object if the request was successful"""
         try:
-            r = requests.get(self.url)
-            parse_only = SoupStrainer({'span':'entry__date', 'h1': 'entry__title', 'div':['entry__meta', 'entry__content']})
-            soup = BeautifulSoup(r.content, "html.parser", parse_only = parse_only)
+            r = requests.get(url)
+            parse_only = SoupStrainer(
+                {'span': 'entry__date', 'h1': 'entry__title', 'div': ['entry__meta', 'entry__content']})
+            soup = BeautifulSoup(r.content, "html.parser", parse_only=parse_only)
             return soup
         except:
             return None
 
-        # except ConnectionError as e:
-        #     print("handling a ", type(e))  # controlla (, o format) stampare stack
-
-    """Dato un url, restituisce la data pubblicazione"""
-
-    def get_date(self):
+    def __get_date(self, soup: BeautifulSoup):
+        """return article publication date"""
         try:
-            container = self.soup.find("span", "entry__date")
+            container = soup.find("span", "entry__date")
             date = container.text.strip("Pubblicato il \n")
             date = date.lstrip()
             return date
         except:
             return None
 
-    """Dato un url, restituisce il titolo"""
-
-    def get_title(self):
+    def __get_title(self, soup: BeautifulSoup):
+        """return article title"""
         try:
-            return self.soup.title.text
+            return soup.title.text
         except:
             return None
 
-    """Dato un url, restituisce l'autore"""
-
-    def get_author(self):
+    def __get_author(self, soup: BeautifulSoup):
+        """return article author"""
         try:
-            container = self.soup.find('div', attrs={"class": "entry__meta"}).find("span", "entry__author")
+            container = soup.find('div', attrs={"class": "entry__meta"}).find("span", "entry__author")
             author = container.text
             return author
         except:
             return None
 
-    """Dato un url, restituisce il corpo"""
-
-    def get_body(self):
+    def __get_body(self, soup: BeautifulSoup):
+        """return article body"""
         try:
-            containers = self.soup.find("div", {"class": "entry__content", "id": "article-body"})
+            containers = soup.find("div", {"class": "entry__content", "id": "article-body"})
             find_p = containers.find_all("p")
             body = ' '.join(p.text for p in find_p if not p.find("span"))
             body = body.replace("\n", "")
