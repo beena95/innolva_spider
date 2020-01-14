@@ -1,5 +1,7 @@
 import time
-from innolva_spider.dao.UrlDAO import UrlDAO
+from datetime import datetime
+
+from innolva_spider.dao.UrlRequestDAO import UrlRequestDAO
 from innolva_spider.dao.ArticleToDB import ArticleToDB
 from innolva_spider.business.ArticleBusiness import ArticleBusiness
 
@@ -7,11 +9,11 @@ from innolva_spider.business.ArticleBusiness import ArticleBusiness
 def timer(func):
     def wrapper(*args, **kwargs):
         """return the time of execution"""
-        start_time = time.time()
+        start_time = datetime.now()
         ret_value = func(*args, **kwargs)
-        end_time = time.time()
+        end_time = datetime.now()
         num_seconds = end_time - start_time
-        print("- Time for compute \'" + func.__name__ + "\':" + str(round(num_seconds, 4)) + " s")
+        print("- Time for compute \'" + func.__name__ + "\':" + str(num_seconds) + " s")
         return ret_value
 
     return wrapper
@@ -20,7 +22,7 @@ def timer(func):
 class UrlBusiness:
 
     def __init__(self):
-        self.url_dao = UrlDAO()
+        self.url_request = UrlRequestDAO()
         self.articles_to_db = ArticleToDB()
         self.a_business = ArticleBusiness()
         self.setArticles = set()
@@ -31,7 +33,9 @@ class UrlBusiness:
         set_urls = set_unvis.difference(set_vis)
         for url in set_urls:
             try:
-                set_unvis = set_unvis.union(self.url_dao.get_urls(url))
+                set_to_check = self.url_request.get_urls(url)
+                # set_unvis = url_dao_mongo.check_visited(set_to_check)
+
             except:
                 continue
             self.articles_to_db.save("VISITED", url)
@@ -55,7 +59,7 @@ class UrlBusiness:
         save the unvisited links in the respective collection"""
         # gestire get primo url
         # if url:
-        set_unvis = self.url_dao.get_urls(url)
+        set_unvis = self.url_request.get_urls(url)
         # cancella elementi delle collection per i test
         self.articles_to_db.clear_collection("VISITED")
         self.articles_to_db.clear_collection("ARTICLES")
