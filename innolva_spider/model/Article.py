@@ -1,5 +1,3 @@
-from innolva_spider.dao import ArticleToDB
-from innolva_spider.dao.ArticleToDB import ArticleToDB
 
 
 class Article:
