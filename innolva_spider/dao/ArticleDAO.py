@@ -4,11 +4,11 @@ from innolva_spider.model.Article import Article
 
 class ArticleDAO(MongoDAO):
 
-    # def __init__(self,
-    #
-    #              host: str = "mongodb+srv://smantuano:12345@dbarticles-qv1r7.mongodb.net/test?retryWrites=true&w=majority",
-    #              db: str = "INNOLVA_SPIDER_DB"):
-    #      super().__init__(host, db)
+    def __init__(self,
+
+                 host: str = "mongodb+srv://gneata:12345@dbarticles-qv1r7.mongodb.net/test?retryWrites=true&w=majority",
+                 db: str = "INNOLVA_SPIDER_DB"):
+         super().__init__(host, db)
 
     def save(self, collection: str, obj):
         """save a single article or a single string"""
@@ -46,9 +46,10 @@ class ArticleDAO(MongoDAO):
 
 if __name__ == '__main__':
 
-    article1 = Article("dvdwfew", "fegrerher", "sara", "ascasfasf", "dsfsdfs")
-    a = ArticleDAO("localhost", "DATABASE", 27017)
-    a.save("collection", article1)
+    lista = ["dgahahtrh","agra<grhe<g","segGG<GR","sRHAHAERH","WGahrad"]
+   # article1 = Article("dvdwfew", "fegrerher", "sara", "ascasfasf", "dsfsdfs")
+    a = ArticleDAO()
+    a.save("TEST", lista)
     #a.clear_collection("collection")
     #a.query("collection",{"Autore":"Sara"})
-    a.update_multiple_by_condition_dict("collection", )
+
