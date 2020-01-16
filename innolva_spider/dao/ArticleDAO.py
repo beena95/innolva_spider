@@ -7,11 +7,10 @@ class ArticleDAO(MongoDAO):
     def __init__(self,
                  host: str = "mongodb+srv://gneata:12345@dbarticles-qv1r7.mongodb.net/test?retryWrites=true&w=majority",
                  db: str = "INNOLVA_SPIDER_DB"):
-         super().__init__(host, db)
+        super().__init__(host, db)
 
     def save(self, collection: str, obj):
         """save a single article or a single string"""
-        dict = {}
         if type(obj) == list:
             for article in obj:
              dict = {
@@ -32,7 +31,6 @@ class ArticleDAO(MongoDAO):
                      }
              super().save(collection, dict)
 
-
     def update_multiple_by_condition_dict(self, collection: str, condition_dict: dict, update_dict: dict):
         """update multiple documents that match a condition"""
         coll = self.getcoll(collection)
@@ -44,7 +42,7 @@ class ArticleDAO(MongoDAO):
         coll.remove()
 
 if __name__ == '__main__':
-
+    
     lista = ["dgahahtrh","agra<grhe<g","segGG<GR","sRHAHAERH","WGahrad"]
 
     #article1 = Article("dvdwfew", "fegrerher", "sara", "ascasfasf", "dsfsdfs")
@@ -54,4 +52,3 @@ if __name__ == '__main__':
     #a.clear_collection("collection")
     #a.query("collection",{"Autore":"Sara"})
     #a.clear_collection("TEST")
-
