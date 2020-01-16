@@ -5,7 +5,6 @@ from innolva_spider.model.Article import Article
 class ArticleDAO(MongoDAO):
 
     def __init__(self,
-
                  host: str = "mongodb+srv://gneata:12345@dbarticles-qv1r7.mongodb.net/test?retryWrites=true&w=majority",
                  db: str = "INNOLVA_SPIDER_DB"):
          super().__init__(host, db)
@@ -14,13 +13,13 @@ class ArticleDAO(MongoDAO):
         """save a single article or a single string"""
         dict = {}
         if type(obj) == list:
-            for i in obj:
+            for article in obj:
              dict = {
-                "Link": obj.url,
-                "Data": obj.date,
-                "Autore": obj.author,
-                "Titolo": obj.title,
-                "Body": obj.body
+                "Link": article.url,
+                "Data": article.date,
+                "Autore": article.author,
+                "Titolo": article.title,
+                "Body": article.body
                     }
              super().save(collection, dict)
         elif isinstance(obj, Article):
@@ -47,9 +46,12 @@ class ArticleDAO(MongoDAO):
 if __name__ == '__main__':
 
     lista = ["dgahahtrh","agra<grhe<g","segGG<GR","sRHAHAERH","WGahrad"]
-   # article1 = Article("dvdwfew", "fegrerher", "sara", "ascasfasf", "dsfsdfs")
+
+    #article1 = Article("dvdwfew", "fegrerher", "sara", "ascasfasf", "dsfsdfs")
     a = ArticleDAO()
-    a.save("TEST", lista)
+    articolo = Article("jijibjnj", "hbjnkmkmk", "sei un gaggio", "jbghcvbjnjk", "vghbjnjnk")
+    a.save("TEST", articolo)
     #a.clear_collection("collection")
     #a.query("collection",{"Autore":"Sara"})
+    #a.clear_collection("TEST")
 

@@ -1,6 +1,7 @@
 from bson import ObjectId
 from pymongo import MongoClient, DESCENDING
 
+
 class MongoDAO:
     def __init__(self, host, db, port=None):
         self.db = db
@@ -29,18 +30,23 @@ class MongoDAO:
                     coll.insert(o, check_keys=False)
             except:
                 coll.insert(o, check_keys=False)
+
     def update_by_id(self, collection, id, key_values_dict):
         coll = self.getcoll(collection)
         coll.find_one_and_update({"_id": ObjectId(id)}, {"$set": key_values_dict}, upsert=True)
+
     def update_by_conditiondict(self, collection, conditiondict, updatedict):
         coll = self.getcoll(collection)
         coll.update_one(conditiondict, {"$set": updatedict}, upsert=True)
+
     def delete_by_id(self, collection, id):
         coll = self.getcoll(collection)
         coll.remove({"_id": ObjectId(id)})
+
     def delete_by_conditiondict(self, collection, conditiondict):
         coll = self.getcoll(collection)
         coll.remove(conditiondict, True)
+
     def all(self, collection, start: int = 0, rows: int = None, selection=None):
         coll = self.getcoll(collection)
         if rows:
@@ -51,6 +57,7 @@ class MongoDAO:
             for el in coll.find().skip(start):
                 el["_id"] = str(el["_id"])
                 yield el
+
     def getbyid(self, collection, id):
         coll = self.getcoll(collection)
         el = coll.find_one({"_id": ObjectId(id)})
@@ -58,37 +65,46 @@ class MongoDAO:
             raise Exception("Element with id " + str(id) + " not found")
         el["_id"] = str(el["_id"])
         return el
+
     def get_by_conditiondict(self, collection, conditiondict):
         coll = self.getcoll(collection)
         el = coll.find_one(conditiondict)
         if not el:
             raise Exception("Element not found")
         return el
+
     def collections(self):
         return self.client.get_database(self.db).collection_names()
+
     def drop(self, collection):
         coll = self.getcoll(collection)
         coll.drop()
+
     def getcoll(self, collection):
         return self.client.get_database(self.db).get_collection(collection)
+
     def sample(self, collection, n):
         coll = self.getcoll(collection)
         for el in coll.aggregate([{"$sample": {"size": n}}]):
             el["_id"] = str(el["_id"])
             yield el
+
     def query(self, collection, q):
         coll = self.getcoll(collection)
         for el in coll.find(q):
             el["_id"] = str(el["_id"])
             yield el
+
     def copy(self, collection1, collection2):
         coll1 = self.getcoll(collection1)
         coll2 = self.getcoll(collection2)
         coll2.remove()
         for el in coll1.find():
             coll2.insert(el)
+
     def count(self, collection):
         return self.getcoll(collection).count()
+
     def get_last(self, collection, q: {} = None):
         coll = self.getcoll(collection)
         return coll.find_one(sort=[('_id', DESCENDING)])

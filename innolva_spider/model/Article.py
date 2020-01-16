@@ -1,5 +1,4 @@
 
-
 class Article:
 
     def __init__(self, url, date, author, title, body):
@@ -19,7 +18,7 @@ if __name__ == '__main__':
     lista = ["dfdwwx", "dsasfqw", "rgfdwxasdas", "adsafs", "cwqdwsa", "fsadsda"]
 
     database = Article()
-    #url = Article('https://www.lastampa.it/roma/2019/12/17/news/roma-militare-morta-nei-bagni-della-stazione-metro-flaminio-ora-chiusa-per-i-rilievi-si-ipotizza-un-suicidio-1.38222694')
+    # url = Article('https://www.lastampa.it/roma/2019/12/17/news/roma-militare-morta-nei-bagni-della-stazione-metro-flaminio-ora-chiusa-per-i-rilievi-si-ipotizza-un-suicidio-1.38222694')
     # database.save(url, "articles_collection")
     # for link in database.all("Links"):
     #     print(link)
