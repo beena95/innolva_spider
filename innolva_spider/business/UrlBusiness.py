@@ -55,16 +55,16 @@ class UrlBusiness:
         article = self.a_business.download(url)
         if article.body:
             # self.setArticles.add(article)
-            self.articles_dao.save_url("ARTICLES", article)
+            self.articles_dao.save("ARTICLES", article)
 
     @timer
     def go_deep(self, level: int, url: str):
         """crawl inside the url until the level of depth is reached,
         save the unvisited links in the respective collection"""
         # gestire get primo url
-        self.articles_dao.clear_collection("VISITED")
+        self.url_dao.clear_collection("VISITED")
+        self.url_dao.clear_collection("UNVISITED")
         self.articles_dao.clear_collection("ARTICLES")
-        self.articles_dao.clear_collection("UNVISITED")
         self.check_urls_in_collection(url)
         print(len(self.url_dao.all_urls("UNVISITED")))
         # cancella elementi delle collection per i test
