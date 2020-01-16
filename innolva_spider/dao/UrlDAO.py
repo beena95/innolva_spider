@@ -17,10 +17,10 @@ class UrlDAO(MongoDAO):
         except DuplicateKeyError:
             print("key already exists")
 
-    def check_visited(self, URL : str, collection: str):
+    def check_visited(self, url: str, collection: str):
         """check if a single url exists inside a collection"""
         coll = self.getcoll(collection)
-        if coll.find_one({"_id": URL}):
+        if coll.find_one({"_id": url}):
             return True
         else:
             return False
@@ -30,6 +30,7 @@ class UrlDAO(MongoDAO):
         links_set = set()
         coll = self.getcoll(collection)
         for el in coll.find():
+            # el is a single document inside the collection
             links_set.add(el["_id"])
         return links_set
 
@@ -37,6 +38,11 @@ class UrlDAO(MongoDAO):
         """remove every document inside a collection"""
         coll = self.getcoll(collection)
         coll.remove()
+
+    def delete_url(self, url: str, collection: str):
+        """remove a single url from a collection"""
+        coll = self.getcoll(collection)
+        coll.remove({"_id": url})
 
 
 if __name__ == '__main__':
@@ -49,5 +55,8 @@ if __name__ == '__main__':
     # coll.insert({"_id": "www.jusiancasablancas.com"})
     # coll.drop()
     # print(db.check_visited(url, "TEST"))
-    for link in db.all_urls("TEST"):
-        print(link)
+    # db.save_url("TEST", "3skwjrgfdksnfjwbrhkfnkdkaxsade")
+    db.delete_url("TEST", "3skwjrgfdksnfjwbrhkfnkdkaxsade")
+
+
+
