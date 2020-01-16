@@ -30,7 +30,7 @@ class UrlRequestDAO:
 
 
 if __name__ == '__main__':
-    prova = UrlDAO()
+    prova = UrlRequestDAO
     print(prova.get_urls('http://lastampa.it'))
     # for n in prova.get_urls('http://lastampa.it'):
     #     print(n)

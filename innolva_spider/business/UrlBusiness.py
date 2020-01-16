@@ -28,6 +28,7 @@ class UrlBusiness:
         self.a_business = ArticleBusiness()
         self.setArticles = set()
 
+    @timer
     def check_urls_in_collection(self, url):
         for url in self.url_request.get_urls(url):
             try:
@@ -36,7 +37,7 @@ class UrlBusiness:
             except:
                 continue
 
-
+    @timer
     def take_urls(self):
         """crawl inside each url, update the collections"""
         print(len(self.url_dao.all_urls("UNVISITED")))
@@ -48,7 +49,6 @@ class UrlBusiness:
             self.url_dao.save_url("VISITED", url)
             self.url_dao.delete_url(url, "UNVISITED")
             self.add_article(url)
-
 
     def add_article(self, url):
         """download articles and add them in the respective collection"""
@@ -66,7 +66,6 @@ class UrlBusiness:
         self.url_dao.clear_collection("UNVISITED")
         self.articles_dao.clear_collection("ARTICLES")
         self.check_urls_in_collection(url)
-        print(len(self.url_dao.all_urls("UNVISITED")))
         # cancella elementi delle collection per i test
 
         while level > 0:
@@ -77,7 +76,7 @@ class UrlBusiness:
 
 if __name__ == '__main__':
     test = UrlBusiness()
-    t = test.go_deep(2, "http://www.lastampa.it")
+    test.go_deep(2, "http://www.lastampa.it")
 
     # count = 0
     # for article in p:
