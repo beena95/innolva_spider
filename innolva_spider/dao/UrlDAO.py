@@ -10,7 +10,7 @@ class UrlDAO(MongoDAO):
                  override_primary_key: bool = True):
         super().__init__(host, db)
 
-    def save_url(self, collection: str, url: str):\
+    def save_url(self, collection: str, url: str):
         """save a single url inside a collection"""
         coll = self.getcoll(collection)
         try:
