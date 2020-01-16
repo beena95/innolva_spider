@@ -46,7 +46,7 @@ class UrlBusiness:
             except:
                 continue
             self.url_dao.save_url("VISITED", url)
-            self.url_dao.delete_by_id("UNVISITED", url)
+            self.url_dao.delete_url(url, "UNVISITED")
             self.add_article(url)
 
 

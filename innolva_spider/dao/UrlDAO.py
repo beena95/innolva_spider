@@ -14,8 +14,8 @@ class UrlDAO(MongoDAO):
         coll = self.getcoll(collection)
         try:
             coll.insert({"_id": url})
-        except DuplicateKeyError:
-            print("key already exists")
+        except:
+            return
 
     def check_visited(self, url: str, collection: str):
         """check if a single url exists inside a collection"""
