@@ -22,4 +22,4 @@ if __name__ == '__main__':
     # database.save(url, "articles_collection")
     # for link in database.all("Links"):
     #     print(link)
-    database.save ("collection", lista)
+    database.save("collection", lista)

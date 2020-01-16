@@ -6,8 +6,7 @@ class UrlDAO(MongoDAO):
 
     def __init__(self,
                  host: str = "mongodb+srv://beena95:xdzm6m6v2@dbarticles-qv1r7.mongodb.net/test?retryWrites=true&w=majority",
-                 db: str = "INNOLVA_SPIDER_DB",
-                 override_primary_key: bool = True):
+                 db: str = "INNOLVA_SPIDER_DB"):
         super().__init__(host, db)
 
     def save_url(self, collection: str, url: str):
@@ -57,7 +56,4 @@ if __name__ == '__main__':
     # coll.drop()
     # print(db.check_visited(url, "TEST"))
     # db.save_url("TEST", "3skwjrgfdksnfjwbrhkfnkdkaxsade")
-    db.delete_url("TEST", "3skwjrgfdksnfjwbrhkfnkdkaxsade")
-
-
-
+    # db.delete_url("TEST", "3skwjrgfdksnfjwbrhkfnkdkaxsade")
