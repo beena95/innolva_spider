@@ -14,7 +14,7 @@ class UrlDAO(MongoDAO):
         coll = self.getcoll(collection)
         try:
             coll.insert({"_id": url})
-        except:
+        except DuplicateKeyError:
             return
 
     def check_visited(self, url: str, collection: str):
