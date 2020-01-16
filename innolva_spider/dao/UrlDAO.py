@@ -5,7 +5,7 @@ from innolva_spider.dao.mongoDAO import MongoDAO
 class UrlDAO(MongoDAO):
 
     def __init__(self,
-                 host: str = "mongodb+srv://username:password@dbarticles-qv1r7.mongodb.net/test?retryWrites=true&w=majority",
+                 host: str = "mongodb+srv://smantuano:12345@dbarticles-qv1r7.mongodb.net/test?retryWrites=true&w=majority",
                  db: str = "INNOLVA_SPIDER_DB"):
         super().__init__(host, db)
 
