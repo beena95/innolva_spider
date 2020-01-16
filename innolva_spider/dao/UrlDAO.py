@@ -10,14 +10,13 @@ class UrlDAO(MongoDAO):
                  override_primary_key: bool = True):
         super().__init__(host, db)
 
-    def save_url(self, collection: str, url: str):
+    def save_url(self, collection: str, url: str):\
         """save a single url inside a collection"""
         coll = self.getcoll(collection)
-        if self.override_primary_key:
-            try:
-                coll.insert({"_id": url})
-            except DuplicateKeyError:
-                print("key already exists")
+        try:
+            coll.insert({"_id": url})
+        except DuplicateKeyError:
+            print("key already exists")
 
     def check_visited(self, url: str, collection: str):
         """check if a single url exists inside a collection"""
@@ -41,7 +40,7 @@ class UrlDAO(MongoDAO):
         coll = self.getcoll(collection)
         coll.remove()
 
-    def delete_url(self, collection: str, url: str):
+    def delete_url(self, url: str, collection: str):
         """remove a single url from a collection"""
         coll = self.getcoll(collection)
         coll.remove({"_id": url})
