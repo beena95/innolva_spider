@@ -31,11 +31,9 @@ class UrlBusiness:
     @timer
     def check_urls_in_collection(self, url):
         for url in self.url_request.get_urls(url):
-            try:
-                if not self.url_dao.check_visited(url, "VISITED"):
-                    self.url_dao.save_url("UNVISITED", url)
-            except:
-                continue
+            if not self.url_dao.check_visited(url, "VISITED"):
+                self.url_dao.save_url("UNVISITED", url)
+
 
     @timer
     def take_urls(self):
